@@ -1,16 +1,5 @@
 #include QMK_KEYBOARD_H
 
-//---LAYER NAMES
-enum {
-    LO_BASE = 0,
-    LO_CODING,
-    LO_OVERWATCH,
-    LO_CSGO,
-    LO_CHAT,
-    LO_GENMOD,
-    LO_SETTINGS
-};
-
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
     U_T_AGCR,              //USB Toggle Automatic GCR control
@@ -140,7 +129,7 @@ void td_oneshot_lalt(qk_tap_dance_state_t *state, void *user_data) {
             register_code(KC_LALT);
             break;
         default:
-            set_oneshot_layer(LO_GENMOD, ONESHOT_START);
+            set_oneshot_layer(_GENMOD, ONESHOT_START);
             clear_oneshot_layer_state(ONESHOT_PRESSED);
     }
 }
@@ -166,39 +155,39 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 keymap_config_t keymap_config;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* General Layout */
-    [LO_BASE] = LAYOUT_65_ansi_blocker(
+    [_BASE] = LAYOUT_65_ansi_blocker(
         KC_GRV,  KC_1,    KC_2,        KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,       KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,        KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,       KC_RBRC, KC_BSLS, KC_MEDIA_PLAY_PAUSE, \
         KC_CAPS, KC_A,    KC_S,        KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,                KC_ENT,  KC_AUDIO_VOL_UP, \
         KC_LSFT, KC_Z,    KC_X,        KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                KC_UP,   KC_AUDIO_VOL_DOWN, \
-        KC_LCTL, KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT, MO(LO_GENMOD), KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_LCTL, KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT, MO(_GENMOD), KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     /* Coding Layout */
-    [LO_CODING] = LAYOUT_65_ansi_blocker(
+    [_CODING] = LAYOUT_65_ansi_blocker(
         KC_GRV,        KC_1,    KC_2,        KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,          TD(TD_DASH),   KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,        KC_Q,    KC_W,        KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,          KC_LBRC,       KC_RBRC, KC_BSLS, KC_MEDIA_PLAY_PAUSE, \
         KC_CAPS,       KC_A,    KC_S,        KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    TD(TD_COLONS), TD(TD_QUOTES),          KC_ENT,  KC_AUDIO_VOL_UP, \
         TD(TD_LCADET), KC_Z,    KC_X,        KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,       TD(TD_RCADET),          KC_UP,   KC_AUDIO_VOL_DOWN, \
-        KC_LCTL,       KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT,       MO(LO_GENMOD), KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_LCTL,       KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT,       MO(_GENMOD), KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     /* Overwatch Layout */
-    [LO_OVERWATCH] = LAYOUT_65_ansi_blocker(
+    [_OVERWATCH] = LAYOUT_65_ansi_blocker(
         KC_ESC,  KC_1,    KC_2,        KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,       KC_EQL,  KC_BSPC,   KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,        KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,       KC_RBRC, KC_BSLS,   KC_MEDIA_PLAY_PAUSE, \
         KC_CAPS, KC_A,    KC_S,        KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,                CHAT_ENTR, KC_AUDIO_VOL_UP, \
         KC_LSFT, KC_Z,    KC_X,        KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                KC_UP,     KC_AUDIO_VOL_DOWN, \
-        KC_LCTL, KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT, MO(LO_GENMOD), KC_LEFT, KC_DOWN,   KC_RGHT  \
+        KC_LCTL, KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT, MO(_GENMOD), KC_LEFT, KC_DOWN,   KC_RGHT  \
     ),
     /* CSGO Layout */
-    [LO_CSGO] = LAYOUT_65_ansi_blocker(
+    [_CSGO] = LAYOUT_65_ansi_blocker(
         KC_GRV,  KC_1,    KC_2,        KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,       KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,        KC_E,    KC_R,    KC_T,    CSGO_Y,  CSGO_U,  KC_I,    KC_O,    KC_P,    KC_LBRC,       KC_RBRC, KC_BSLS, KC_MEDIA_PLAY_PAUSE, \
         KC_CAPS, KC_A,    KC_S,        KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,                KC_ENT,  KC_AUDIO_VOL_UP, \
         KC_LSFT, KC_Z,    KC_X,        KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                KC_UP,   KC_AUDIO_VOL_DOWN, \
-        KC_LCTL, KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT, MO(LO_GENMOD), KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_LCTL, KC_LGUI, TD(TD_LALT),                            KC_SPC,                             KC_RALT, MO(_GENMOD), KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     /* Chat Mode */
-    [LO_CHAT] = LAYOUT_65_ansi_blocker(
+    [_CHAT] = LAYOUT_65_ansi_blocker(
         CHAT_ESC, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   _______, \
         _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   _______, \
         _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          CHAT_ENTR, _______, \
@@ -206,20 +195,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______, _______,                            _______,                            _______, XXXXXXX, _______, _______,   _______  \
     ),
     /* General Modifiers */
-    [LO_GENMOD] = LAYOUT_65_ansi_blocker(
+    [_GENMOD] = LAYOUT_65_ansi_blocker(
         KC_ESC,     KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                       _______, _______, \
         _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, _______, _______,                      _______, KC_HOME,  \
         _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,                               _______, KC_PGUP, \
         _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,                               _______, KC_PGDN, \
-        _______,    _______, KC_LALT,                            _______,                            TG(LO_SETTINGS),  _______, KC_MEDIA_PREV_TRACK, _______, KC_MEDIA_NEXT_TRACK   \
+        _______,    _______, KC_LALT,                            _______,                            TG(_SETTINGS),  _______, KC_MEDIA_PREV_TRACK, _______, KC_MEDIA_NEXT_TRACK   \
     ),
     /* Keyboad Settings Mode */
-    [LO_SETTINGS] = LAYOUT_65_ansi_blocker(
+    [_SETTINGS] = LAYOUT_65_ansi_blocker(
         XXXXXXX, DF(0),   DF(1),   DF(2),    DF(3),   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX,  RGB_M_B, RGB_TOG, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, MD_BOOT, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  RGB_VAI, XXXXXXX, \
-        XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX,                             TG(LO_SETTINGS),  XXXXXXX, RGB_RMOD, RGB_VAD, RGB_MOD  \
+        XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX,                             TG(_SETTINGS),  XXXXXXX, RGB_RMOD, RGB_VAD, RGB_MOD  \
     ),
     /*
     [X] = LAYOUT_65_ansi_blocker(
@@ -317,25 +306,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CHAT_ENTR:
             if (record->event.pressed) {
                 SEND_STRING(SS_TAP(X_ENTER));
-                layer_invert(LO_CHAT);
+                layer_invert(_CHAT);
             }
             return false;
         case CHAT_ESC:
             if (record->event.pressed) {
                 SEND_STRING(SS_TAP(X_ESCAPE));
-                layer_off(LO_CHAT);
+                layer_off(_CHAT);
             }
             return false;
         case CSGO_Y:
             if (record->event.pressed) {
                 SEND_STRING(SS_TAP(X_Y));
-                layer_on(LO_CHAT);
+                layer_on(_CHAT);
             }
             return false;
         case CSGO_U:
             if (record->event.pressed) {
                 SEND_STRING(SS_TAP(X_U));
-                layer_on(LO_CHAT);
+                layer_on(_CHAT);
             }
             return false;
 //---
