@@ -15,3 +15,7 @@
 
 // Set default RGB effect
 #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_CUSTOM_S75_GENERAL
+#define MIN_X 0
+#define MAX_X 224
+#define MIN_Y 0
+#define MAX_Y 64
