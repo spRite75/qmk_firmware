@@ -2,13 +2,13 @@ RGB_MATRIX_EFFECT(S75_GENERAL)
 
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
-void setDefaultColour(int i) {
-    rgb_matrix_set_color(i, 24, 215, 204);
-}
-
-void turnOff(int i) {
-    rgb_matrix_set_color(i, 0, 0, 0);
-}
+void setDefaultColour(int i)        { rgb_matrix_set_color(i,   24,     215,    204); }
+void setWhite(int i)                { rgb_matrix_set_color(i,   255,    255,    255); }
+void setDullWhite(int i)            { rgb_matrix_set_color(i,   200,    200,    200); }
+void setRed(int i)                  { rgb_matrix_set_color(i,   255,    0,      0); }
+void setOrange(int i)               { rgb_matrix_set_color(i,   255,    102,    0); }
+void setGreen(int i)                { rgb_matrix_set_color(i,   0,      255,    0); }
+void turnOff(int i)                 { rgb_matrix_set_color(i,   0,      0,      0); }
 
 void defaultLighting(int i) {
     switch (i) {
@@ -30,15 +30,15 @@ bool genmodLighting(int i) {
 
     switch (i) {
         case 0: // esc
-            rgb_matrix_set_color(i, 255, 0, 0);
+            setRed(i);
             return true;
         case 1 ... 12: // func keys
         case 64: // Left Arrow
         case 66: // Right Arrow
-            rgb_matrix_set_color(i, 255, 102, 0);
+            setOrange(i);
             return true;
         case 62: // Right Alt
-            rgb_matrix_set_color(i, 0, 255, 0);
+            setGreen(i);
             return true;
         case 29: // 2nd right hand button
         case 43: // 3rd right hand button
@@ -61,11 +61,21 @@ bool codingLighting(int i) {
         case 44: // Left Shift
         case 55: // Right Shift
         case 11: // -
-            rgb_matrix_set_color(i, 200, 200, 200);
+            setDullWhite(i);
             return true;
         default:
             return false;
     }
+}
+
+bool defaultLayerIndicator(int i, int layer) {
+    if (layer == biton32(default_layer_state)) {
+        setGreen(i);
+    } else {
+        setWhite(i);
+    }
+
+    return true;
 }
 
 bool settingsLighting(int i) {
@@ -74,6 +84,21 @@ bool settingsLighting(int i) {
     }
 
     switch (i) {
+        /* Default Layer Selection */
+        case 1: return defaultLayerIndicator(i, _BASE);
+        case 2: return defaultLayerIndicator(i, _CODING);
+        case 3: return defaultLayerIndicator(i, _OVERWATCH);
+        case 4: return defaultLayerIndicator(i, _CSGO);
+        /* End */
+        case 49: // B
+            setRed(i);
+            return true;
+        case 50: // N
+            setWhite(i);
+            return true;
+        case 62: // Right Alt
+            setOrange(i);
+            return true;
         default:
             turnOff(i);
             return true;
