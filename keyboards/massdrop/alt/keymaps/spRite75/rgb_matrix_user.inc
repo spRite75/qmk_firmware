@@ -14,6 +14,9 @@ void setDullWhite(int i)            { rgb_matrix_set_color(i,   200,    200,    
 void setRed(int i)                  { rgb_matrix_set_color(i,   255,    0,      0); }
 void setOrange(int i)               { rgb_matrix_set_color(i,   255,    102,    0); }
 void setGreen(int i)                { rgb_matrix_set_color(i,   0,      255,    0); }
+void setBlue(int i)                 { rgb_matrix_set_color(i,   0,      0,      255); }
+void setYellow(int i)               { rgb_matrix_set_color(i,   255,    255,    0); }
+void setMagenta(int i)              { rgb_matrix_set_color(i,   255,    0,      255); }
 void turnOff(int i)                 { rgb_matrix_set_color(i,   0,      0,      0); }
 
 void setDefaultColour(int i)        { s75_setCustomGradient(i, gradient_setups[s75_selected_gradient]); }
@@ -76,6 +79,115 @@ bool codingLighting(int i) {
     }
 }
 
+bool overwatchLighting(int i) {
+    if (_OVERWATCH != biton32(default_layer_state)) {
+        return false;
+    }
+
+    // Don't handle edge, left alt, or fn
+    if (i > 66 || i == 60 || i == 63) {
+        return false;
+    }
+
+    switch (i) {
+        // Movement
+        case 17: // W
+        case 31 ... 33: // A - D
+        case 58: // Left ctrl
+        case 61: // Space
+            setBlue(i);
+            return true;
+        // Ultimate
+        case 16: // Q
+            setYellow(i);
+            return true;
+        // Abilities
+        case 18: // E
+        case 34: // F
+        case 44: // Left shift
+            setOrange(i);
+            return true;
+        // Communication
+        case 30: // Capslock
+        case 42: // Enter
+        case 45 ... 47: // Z - C
+            setMagenta(i);
+            return true;
+        default:
+            turnOff(i);
+            return true;
+    }
+}
+
+bool csgoLighting(int i) {
+    if (_CSGO != biton32(default_layer_state)) {
+        return false;
+    }
+
+    // Don't handle edge, left alt, or fn
+    if (i > 66 || i == 60 || i == 63) {
+        return false;
+    }
+
+    switch (i) {
+        // Inventory
+        case 1 ... 3:
+        case 5:
+            setYellow(i);
+            return true;
+        // Movement
+        case 17: // W
+        case 31 ... 33: // A - D
+        case 44: // Left shift
+        case 58: // Left ctrl
+        case 61: // Space
+            setBlue(i);
+            return true;
+        // Abilities
+        case 16: // Q
+        case 18: // E
+        case 19: // R
+        case 34: // F
+        case 35: // G
+        case 49: // B
+            setOrange(i);
+            return true;
+        // Grenades
+        case 47:
+        case 48:
+            setGreen(i);
+            return true;
+        // Communication
+        case 21: // Y
+        case 22: // U
+        case 30: // Capslock
+        case 45: // Z
+            setMagenta(i);
+            return true;
+        default:
+            turnOff(i);
+            return true;
+    }
+}
+
+bool chatLighting(int i) {
+    if (IS_LAYER_OFF(_CHAT)) {
+        return false;
+    }
+
+    switch (i) {
+        case 0: // Escape
+            setRed(i);
+            return true;
+        case 42: // Enter
+            setGreen(i);
+            return true;
+        default:
+            setDefaultColour(i);
+            return true;
+    }
+}
+
 bool defaultLayerIndicator(int i, int layer) {
     if (layer == biton32(default_layer_state)) {
         setGreen(i);
@@ -88,6 +200,11 @@ bool defaultLayerIndicator(int i, int layer) {
 
 bool settingsLighting(int i) {
     if (IS_LAYER_OFF(_SETTINGS)) {
+        return false;
+    }
+
+    // Don't handle edge, left alt, or fn
+    if (i > 66) {
         return false;
     }
 
@@ -126,12 +243,7 @@ bool settingsLighting(int i) {
             setOrange(i);
             return true;
         default:
-            // Turn off unhandled keys
-            if (i >= 0 && i <= 66){
-                turnOff(i);
-            } else {
-                setDefaultColour(i);
-            }
+            turnOff(i);
             return true;
     }
 }
@@ -147,6 +259,18 @@ bool S75_GENERAL(effect_params_t* params) {
 
         if (!handled) {
             handled = codingLighting(i);
+        }
+
+        if (!handled) {
+            handled = chatLighting(i);
+        }
+
+        if (!handled) {
+            handled = overwatchLighting(i);
+        }
+
+        if (!handled) {
+            handled = csgoLighting(i);
         }
 
         if (!handled) {

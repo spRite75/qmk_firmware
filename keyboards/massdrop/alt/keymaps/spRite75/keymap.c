@@ -233,6 +233,13 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 };
 
+// Runs whenever the layer changes
+layer_state_t layer_state_set_user(layer_state_t state) {
+    // If the layer changes, close any menus in settings
+    s75_choosing_gradient = false;
+    return state;
+};
+
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
 #define MODS_ALT  (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
