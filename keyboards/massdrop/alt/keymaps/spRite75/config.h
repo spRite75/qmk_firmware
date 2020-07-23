@@ -19,3 +19,5 @@
 #define MAX_X 224
 #define MIN_Y 0
 #define MAX_Y 64
+
+#define S75_MAX_GRADIENT_POINTS 8
