@@ -3,6 +3,7 @@
 
 // Config
 #define TAPPING_TERM 200
+#define S75_MAX_GRADIENT_POINTS 8
 
 // Layers
 #define _BASE 0
@@ -19,5 +20,3 @@
 #define MAX_X 224
 #define MIN_Y 0
 #define MAX_Y 64
-
-#define S75_MAX_GRADIENT_POINTS 8
