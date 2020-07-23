@@ -8,8 +8,9 @@ It has a few layers:
         - `home` - play/pause
         - `PgUp` - volume up
         - `PgDn` - volume down
-    - hold `fn` to see general modifier layer
+    - hold `fn` to see general modifier layer (tap `left alt` for a oneshot)
         - activates escape and function keys
+        - returns `home`, `PgUp` and `PgDn` to their original function
         - Media controls:
             - `right` - next track
             - `left` - prev track
