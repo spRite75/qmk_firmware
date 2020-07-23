@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "custom_state.h"
 
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
@@ -13,6 +14,9 @@ enum alt_keycodes {
     CHAT_ESC,           // tap escape and toggle chat layer
     CSGO_U,             // tap U and toggle chat layer
     CSGO_Y,             // tap Y and toggle chat layer
+    S75_GS,             // toggle gradient settings mode
+    S_LB,
+    S_RB,
 };
 
 //---TAPDANCES
@@ -205,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Keyboad Settings Mode */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         XXXXXXX, DF(0),   DF(1),   DF(2),    DF(3),   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S75_GS,         S_LB,    S_RB,    XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, MD_BOOT, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                 XXXXXXX, XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX,                             TG(_SETTINGS),  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  \
@@ -325,6 +329,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 SEND_STRING(SS_TAP(X_U));
                 layer_on(_CHAT);
+            }
+            return false;
+        case S75_GS:
+            if (record->event.pressed){
+                if (s75_choosing_gradient) {
+                    s75_choosing_gradient = false;
+                } else {
+                    s75_choosing_gradient = true;
+                }
+            }
+            return false;
+        case S_RB:
+            if (record->event.pressed){
+                if (s75_choosing_gradient) {
+                    if (s75_selected_gradient < s75_gradient_count - 1) {
+                        s75_selected_gradient++;
+                    } else {
+                        s75_selected_gradient = 0;
+                    }
+                }
+            }
+            return false;
+        case S_LB:
+            if (record->event.pressed){
+                if (s75_choosing_gradient) {
+                    if (s75_selected_gradient != 0) {
+                        s75_selected_gradient--;
+                    } else {
+                        s75_selected_gradient = s75_gradient_count - 1;
+                    }
+                }
             }
             return false;
 //---

@@ -1,8 +1,13 @@
 RGB_MATRIX_EFFECT(S75_GENERAL)
 
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
+#include "custom_state.h"
 #include "s75_custom_gradient.c"
+#include "s75_gradients.c"
 
+bool s75_choosing_gradient = false;
+int s75_selected_gradient = 0;
+int s75_gradient_count = gradient_setups_count;
 
 void setWhite(int i)                { rgb_matrix_set_color(i,   255,    255,    255); }
 void setDullWhite(int i)            { rgb_matrix_set_color(i,   200,    200,    200); }
@@ -11,20 +16,7 @@ void setOrange(int i)               { rgb_matrix_set_color(i,   255,    102,    
 void setGreen(int i)                { rgb_matrix_set_color(i,   0,      255,    0); }
 void turnOff(int i)                 { rgb_matrix_set_color(i,   0,      0,      0); }
 
-void setDefaultGradient(int i) {
-    RGB iceBlue = { .r = 24, .g = 215, .b = 204 };
-    RGB lemonadePink = { .r = 255, .g = 114, .b = 118 };
-
-    s75_gradient_point points[] = { 
-        { .s_p = 0.00, .s_rgb = iceBlue, .e_p = 0.50, .e_rgb = lemonadePink }, 
-        { .s_p = 0.50, .s_rgb = iceBlue, .e_p = 1.00, .e_rgb = lemonadePink }, 
-        { .end = true } 
-    };
-
-    s75_setCustomGradient(i, points);
-}
-
-void setDefaultColour(int i)        { setDefaultGradient(i); }
+void setDefaultColour(int i)        { s75_setCustomGradient(i, gradient_setups[s75_selected_gradient]); }
 
 void defaultLighting(int i) {
     switch (i) {
@@ -99,6 +91,17 @@ bool settingsLighting(int i) {
         return false;
     }
 
+    // Gradient choooser
+    if (s75_choosing_gradient && (i == 26 || i == 27) ) {
+        setOrange(i);
+        return true;
+    }
+    // Display a preview when selecting a gradient
+    if (s75_choosing_gradient && ((i >= 45 && i <= 54) || (i >= 31 && i <= 41))) {
+        setDefaultColour(i);
+        return true;
+    }
+
     switch (i) {
         /* Default Layer Selection */
         case 1: return defaultLayerIndicator(i, _BASE);
@@ -106,6 +109,13 @@ bool settingsLighting(int i) {
         case 3: return defaultLayerIndicator(i, _OVERWATCH);
         case 4: return defaultLayerIndicator(i, _CSGO);
         /* End */
+        case 25: // P
+            if (s75_choosing_gradient) {
+                setGreen(i);
+            } else {
+                setWhite(i);
+            }
+            return true;
         case 49: // B
             setRed(i);
             return true;
@@ -116,7 +126,12 @@ bool settingsLighting(int i) {
             setOrange(i);
             return true;
         default:
-            turnOff(i);
+            // Turn off unhandled keys
+            if (i >= 0 && i <= 66){
+                turnOff(i);
+            } else {
+                setDefaultColour(i);
+            }
             return true;
     }
 }
