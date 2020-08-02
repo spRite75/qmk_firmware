@@ -8,7 +8,6 @@ bool codingLighting(int i) {
         case 41: // '
         case 44: // Left Shift
         case 55: // Right Shift
-        case 11: // -
             setDullWhite(i);
             return true;
         default:
