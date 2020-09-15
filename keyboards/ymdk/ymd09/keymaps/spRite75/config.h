@@ -1,3 +1,4 @@
 // Layers
-#define _HYPER      0
-#define _RGB        1
+#define _MACWORK    0
+#define _HYPER      1
+#define _RGB        2
